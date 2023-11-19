@@ -16,7 +16,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     request = request.clone({
-      withCredentials: true
+      withCredentials: true,
     })
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
