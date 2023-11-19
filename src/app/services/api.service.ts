@@ -9,13 +9,12 @@ export class ApiService {
   private http = inject(HttpClient)
   private key = 'key=' + environment.key
   private url = environment.url
-
+  private httpOptions = {
+    headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
+  }
 
   getByBarcode(barcode: string) {
-    const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
-    };
-    return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key, httpOptions)
+    return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key,)
   }
 
   getMax10ByBarcode(barcodeArray: string[]) {
