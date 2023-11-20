@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-product',
@@ -7,4 +7,11 @@ import {Component, Input} from '@angular/core';
 })
 export class ProductComponent {
   @Input() product: any
+  @Output() eventModal = new EventEmitter<any>();
+  objectModal: any
+
+  openModal(prod: any) {
+    this.objectModal = prod
+    this.eventModal.emit(this.objectModal);
+  }
 }

@@ -1,0 +1,13 @@
+.icon-modal {
+  z-index: 3 !important;
+  position: absolute;
+  top: 0;
+  left: 85%;
+  font-size: calc(1.275rem + .3vw) !important;
+  transition: font-size .2s ease-out;
+  cursor: pointer;
+}
+
+.icon-modal:hover {
+  font-size: calc(1.5rem + .3vw) !important;
+}

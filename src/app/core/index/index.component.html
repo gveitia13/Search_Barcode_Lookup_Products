@@ -4,14 +4,47 @@
   </div>
   <div class="card">
     <div class="card-body">
-
+      <h1>Filtros para buscar</h1>
     </div>
   </div>
   <hr>
   <div class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
     row-cols-lg-4 g-3 row-cols-xxl-5">
     <div class="col" *ngFor="let prod of productsList">
-      <app-product [product]="prod"></app-product>
+      <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
     </div>
   </div>
 </section>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header border-bottom-0 pb-1">
+    <h6 class="modal-title" id="modal-basic-title">{{objectModal.category}}</h6>
+    <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+  </div>
+  <div class="modal-body p-0">
+    <ngb-carousel>
+      <ng-template ngbSlide *ngFor="let image of objectModal.images;let i = index;">
+        <div class="p-2">
+          <img src="{{image}}" class="img-carousel w-100" alt="{{objectModal.title}}"
+               style="aspect-ratio: 4/3;object-fit: cover;object-position: center"/>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+    <div class="card rounded-0 border-0">
+      <div class="card-body">
+        <h5 class="card-title">{{objectModal.title}}</h5>
+        <p class="card-text mb-0 fw-bold">Código: {{objectModal.barcode_number}} </p>
+        <hr class="my-1">
+        <p class="card-text mb-0" *ngIf="objectModal.asin"><i class="bi bi-dot"></i>ID de Amazon: <b>{{objectModal.asin}}</b>
+        </p>
+        <p class="card-text mb-0" *ngIf="objectModal.brand"><i class="bi bi-dot"></i>Marca: <b>{{objectModal.brand}}</b></p>
+        <p class="card-text mb-1" *ngIf="objectModal.manufacturer"><i class="bi bi-dot"></i>Fabricante:
+          <b>{{objectModal.manufacturer}}</b> <span *ngIf="objectModal.mpn"> | {{objectModal.mpn}}</span></p>
+        <p class="card-text mb-0" *ngIf="objectModal.description">{{objectModal.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a role="button" class="btn btn-outline-dark rounded-pill" (click)="c('Save click')">Cerrar</a>
+  </div>
+</ng-template>

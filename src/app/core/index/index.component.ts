@@ -1,5 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, TemplateRef} from '@angular/core';
 import {ApiService} from "@app/services/api.service";
+import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-index',
@@ -7,9 +8,14 @@ import {ApiService} from "@app/services/api.service";
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
+  constructor(config: NgbModalConfig, private modalService: NgbModal) {
+    config.backdrop = 'static'
+    config.keyboard = false
+  }
 
   private apiService = inject(ApiService)
   productsList = []
+  objectModal: any
 
   ngOnInit(): void {
     if (localStorage.getItem('list'))
@@ -26,5 +32,10 @@ export class IndexComponent implements OnInit {
           console.log(err)
         }
       })
+  }
+
+  openModal(prod: any, content: TemplateRef<any>) {
+    this.objectModal = prod
+    this.modalService.open(content)
   }
 }
