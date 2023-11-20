@@ -10,6 +10,7 @@ import {FooterComponent} from './components/footer/footer.component';
 import {LoaderModule} from "@app/modules/loader/loader.module";
 import {AlertModule} from "@app/modules/alert/alert.module";
 import {httpInterceptorProviders} from "@app/helpers/http.interceptor";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,10 +19,11 @@ import {httpInterceptorProviders} from "@app/helpers/http.interceptor";
     FooterComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule,
+    NgbModule,
     LoaderModule,
     AlertModule,
   ],

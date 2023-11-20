@@ -14,7 +14,7 @@ export class ApiService {
   }
 
   getByBarcode(barcode: string) {
-    return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key,)
+    return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key, this.httpOptions)
   }
 
   getMax10ByBarcode(barcodeArray: string[]) {

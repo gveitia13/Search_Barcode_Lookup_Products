@@ -9,10 +9,22 @@ import {ApiService} from "@app/services/api.service";
 export class IndexComponent implements OnInit {
 
   private apiService = inject(ApiService)
+  productsList = []
 
   ngOnInit(): void {
-    this.apiService.getByBarcode('9780140157376').subscribe(value => {
-      console.log(value)
-    })
+    if (localStorage.getItem('list'))
+      this.productsList = JSON.parse(localStorage.getItem('list')!).slice(0, 10)
+    else
+      // this.apiService.getByBarcode('9780140157376').subscribe({
+      this.apiService.getAllByBarcodeContains('091207').subscribe({
+        next: (response: any) => {
+          this.productsList = response.products.slice(0, 10)
+          localStorage.setItem('list', JSON.stringify(response.products))
+          console.log(this.productsList)
+        },
+        error: err => {
+          console.log(err)
+        }
+      })
   }
 }

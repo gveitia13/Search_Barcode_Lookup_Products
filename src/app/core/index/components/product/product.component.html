@@ -1,1 +1,18 @@
-<p>product works!</p>
+<div class="card h-100">
+  <div class="row g-0 h-100">
+    <div class="col-4 col-sm-12">
+      <app-carousel [product]="product"></app-carousel>
+    </div>
+    <div class="col-8 col-sm-12 d-flex flex-column justify-content-between">
+      <div class="card-body pb-2">
+        <p class="card-text mb-0 fw-bolder">{{product.category}}</p>
+        <p class="card-text mb-0">{{product.title}}</p>
+        <p class="card-text mb-0 fw-bold">Código: {{product.barcode_number}} </p>
+        <p class="card-text mb-0" *ngIf="product.asin">ID de Amazon: <b>{{product.asin}}</b></p>
+        <p class="card-text mb-0" *ngIf="product.brand">Marca: <b>{{product.brand}}</b></p>
+        <p class="card-text mb-0" *ngIf="product.manufacturer">Fabricante: <b>{{product.manufacturer}}</b></p>
+        <p class="card-text mb-0" *ngIf="product.mpn">ID del Fabricante: <b>{{product.mpn}}</b></p>
+      </div>
+    </div>
+  </div>
+</div>

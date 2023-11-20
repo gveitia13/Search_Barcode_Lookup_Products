@@ -1,0 +1,7 @@
+<ngb-carousel>
+  <ng-template ngbSlide *ngFor="let image of product.images;let i = index;">
+    <div class="p-2">
+      <img src="{{image}}" class="img-carousel w-100" style="aspect-ratio: 4/4;" alt="{{product.title}}"/>
+    </div>
+  </ng-template>
+</ngb-carousel>

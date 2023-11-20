@@ -1,1 +1,17 @@
-<p>index works!</p>
+<section class="section">
+  <div class="section-title">
+    <h2>Buscador de productos de Barcode lookup</h2>
+  </div>
+  <div class="card">
+    <div class="card-body">
+
+    </div>
+  </div>
+  <hr>
+  <div class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+    row-cols-lg-4 g-3 row-cols-xxl-5">
+    <div class="col" *ngFor="let prod of productsList">
+      <app-product [product]="prod"></app-product>
+    </div>
+  </div>
+</section>
