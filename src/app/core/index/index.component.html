@@ -25,21 +25,24 @@
           <div class="row g-2">
             <div class="col-12" *ngIf="!exactSearch">
               <input type="search" class="form-control" formControlName="search"
-                     placeholder="Palabras claves">
+                     placeholder="Palabras claves" (input)="searchAPI()">
             </div>
             <div class="col-12 col-md-6">
-              <input type="search" class="form-control" maxlength="14" formControlName="barcode" placeholder="Código de barras"
+              <input type="search" class="form-control" maxlength="14" formControlName="barcode"
+                     placeholder="Código de barras" (input)="searchAPI()"
                      [class.is-invalid]="(form.get('barcode')?.hasError('maxlength') ||
                      form.get('barcode')?.hasError('minlength')) && form.get('barcode')?.touched">
             </div>
             <div class="col-12 col-md-6">
-              <input type="search" class="form-control" formControlName="manufacturer" placeholder="Fabricante">
+              <input type="search" class="form-control" formControlName="manufacturer" placeholder="Fabricante"
+                     (input)="searchAPI()">
             </div>
             <div class="col-12 col-md-6">
-              <input type="search" class="form-control" formControlName="mpn" placeholder="Marca">
+              <input type="search" class="form-control" formControlName="mpn" placeholder="Marca" (input)="searchAPI()">
             </div>
             <div class="col-12 col-md-6" *ngIf="!exactSearch">
-              <input type="search" class="form-control" formControlName="category" placeholder="Categoría">
+              <input type="search" class="form-control" formControlName="category" placeholder="Categoría"
+                     (input)="searchAPI()">
             </div>
           </div>
         </form>
@@ -48,7 +51,8 @@
   </div>
   <hr>
   <app-loader *ngIf="loader"></app-loader>
-  <div *ngIf="!loader" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+  <h3 *ngIf="!loader && !activeSearch" class="text-center text-uppercase">Productos de muestra</h3>
+  <div *ngIf="!loader && !activeSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
     row-cols-lg-4 g-3 row-cols-xl-5">
     <div class="col" *ngFor="let prod of productsList">
       <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>

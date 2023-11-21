@@ -25,6 +25,7 @@ export class IndexComponent implements OnInit {
   productsList = []
   objectModal: any
   loader = true
+  activeSearch = false
   min = 0
   month = 0
   exactSearch = true
@@ -33,20 +34,19 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.loader = true
     this.rateLimits()
+    this.getSampleProducts()
+  }
+
+  getSampleProducts() {
     if (localStorage.getItem('list')) {
       this.productsList = JSON.parse(localStorage.getItem('list')!).slice(0, 10)
       this.loader = false
     } else
-      // this.apiService.getByBarcode('9780140157376').subscribe({
       this.apiService.getAllByBarcodeContains('091207').subscribe({
         next: (response: any) => {
           this.productsList = response.products.slice(0, 10)
           localStorage.setItem('list', JSON.stringify(response.products))
-          console.log(this.productsList)
           this.loader = false
-        },
-        error: err => {
-          console.log(err)
         }
       })
   }
@@ -65,5 +65,15 @@ export class IndexComponent implements OnInit {
 
   changeSearch() {
     this.form.reset()
+    this.activeSearch = false
+  }
+
+  searchAPI() {
+    this.activeSearch = true
+    console.log(this.form.value)
+    this.loader = true
+    setTimeout(() => {
+      this.loader = false
+    }, 3000)
   }
 }
