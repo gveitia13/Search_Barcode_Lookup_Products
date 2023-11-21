@@ -1,15 +1,55 @@
 <section class="section">
   <div class="section-title">
     <h2>Buscador de productos de Barcode lookup</h2>
+    <p class="mb-0 text-center">Estado de la API:</p>
+    <div class="row g-0">
+      <div class="col-12 col-sm-6 text-center">
+        <small>Llamadas restantes por minuto: {{min}}</small>
+      </div>
+      <div class="col-12 col-sm-6 text-center">
+        <small>Llamadas restantes por mes: {{month}}</small>
+      </div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-body">
-      <h1>Filtros para buscar</h1>
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-check mb-2 d-flex justify-content-center">
+          <input class="form-check-input fs-5" type="checkbox" [(ngModel)]="exactSearch" id="flexCheckChecked"
+                 (change)="changeSearch()">
+          <label class="form-check-label fs-5 fw-bold" for="flexCheckChecked">
+            Búsqueda exacta
+          </label>
+        </div>
+        <form [formGroup]="form">
+          <div class="row g-2">
+            <div class="col-12" *ngIf="!exactSearch">
+              <input type="search" class="form-control" formControlName="search"
+                     placeholder="Palabras claves">
+            </div>
+            <div class="col-12 col-md-6">
+              <input type="search" class="form-control" maxlength="14" formControlName="barcode" placeholder="Código de barras"
+                     [class.is-invalid]="(form.get('barcode')?.hasError('maxlength') ||
+                     form.get('barcode')?.hasError('minlength')) && form.get('barcode')?.touched">
+            </div>
+            <div class="col-12 col-md-6">
+              <input type="search" class="form-control" formControlName="manufacturer" placeholder="Fabricante">
+            </div>
+            <div class="col-12 col-md-6">
+              <input type="search" class="form-control" formControlName="mpn" placeholder="Marca">
+            </div>
+            <div class="col-12 col-md-6" *ngIf="!exactSearch">
+              <input type="search" class="form-control" formControlName="category" placeholder="Categoría">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <hr>
-  <div class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
-    row-cols-lg-4 g-3 row-cols-xxl-5">
+  <app-loader *ngIf="loader"></app-loader>
+  <div *ngIf="!loader" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+    row-cols-lg-4 g-3 row-cols-xl-5">
     <div class="col" *ngFor="let prod of productsList">
       <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
     </div>
@@ -35,9 +75,11 @@
         <h5 class="card-title">{{objectModal.title}}</h5>
         <p class="card-text mb-0 fw-bold">Código: {{objectModal.barcode_number}} </p>
         <hr class="my-1">
-        <p class="card-text mb-0" *ngIf="objectModal.asin"><i class="bi bi-dot"></i>ID de Amazon: <b>{{objectModal.asin}}</b>
+        <p class="card-text mb-0" *ngIf="objectModal.asin"><i class="bi bi-dot"></i>ID de Amazon:
+          <b>{{objectModal.asin}}</b>
         </p>
-        <p class="card-text mb-0" *ngIf="objectModal.brand"><i class="bi bi-dot"></i>Marca: <b>{{objectModal.brand}}</b></p>
+        <p class="card-text mb-0" *ngIf="objectModal.brand"><i class="bi bi-dot"></i>Marca: <b>{{objectModal.brand}}</b>
+        </p>
         <p class="card-text mb-1" *ngIf="objectModal.manufacturer"><i class="bi bi-dot"></i>Fabricante:
           <b>{{objectModal.manufacturer}}</b> <span *ngIf="objectModal.mpn"> | {{objectModal.mpn}}</span></p>
         <p class="card-text mb-0" *ngIf="objectModal.description">{{objectModal.description}}</p>

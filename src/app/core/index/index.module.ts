@@ -5,6 +5,8 @@ import {ProductComponent} from './components/product/product.component';
 import {IndexRoutingModule} from "@app/core/index/index-routing.module";
 import {CarouselComponent} from './components/carousel/carousel.component';
 import {NgbCarousel, NgbSlide} from "@ng-bootstrap/ng-bootstrap";
+import {LoaderModule} from "@app/modules/loader/loader.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -17,7 +19,10 @@ import {NgbCarousel, NgbSlide} from "@ng-bootstrap/ng-bootstrap";
     CommonModule,
     IndexRoutingModule,
     NgbCarousel,
-    NgbSlide
+    NgbSlide,
+    LoaderModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class IndexModule {

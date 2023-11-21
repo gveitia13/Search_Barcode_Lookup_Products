@@ -31,4 +31,16 @@ export class ApiService {
     //6 digitos o mas
     return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
   }
+
+  search(keywords: string) {
+
+  }
+
+  exactSearch() {
+
+  }
+
+  rateLimits() {
+    return this.http.get(environment.statusUrl + '?' + this.key)
+  }
 }

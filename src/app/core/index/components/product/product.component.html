@@ -1,11 +1,11 @@
 <div class="card h-100">
-  <div class="row g-0 h-100">
-    <div class="col-4 col-sm-12 my-auto position-relative">
+  <div class="row g-0 h-100 d-flex align-content-start">
+    <div class="col-4 col-sm-12 my-auto my-sm-0 position-relative">
       <i class="bi bi-search icon-modal" (click)="openModal(product)"></i>
       <app-carousel [product]="product"></app-carousel>
     </div>
-    <div class="col-8 col-sm-12 d-flex flex-column justify-content-between">
-      <div class="card-body pb-2">
+    <div class="col-8 col-sm-12 d-flex flex-column justify-content-start">
+      <div class="card-body h-100 pb-2">
         <p class="card-text mb-0 fw-bolder">{{product.category}}</p>
         <p class="card-text mb-0">{{product.title}}</p>
         <hr class="my-1">
@@ -14,8 +14,7 @@
         </p>
         <p class="card-text mb-0" *ngIf="product.brand"><i class="bi bi-dot"></i>Marca: <b>{{product.brand}}</b></p>
         <p class="card-text mb-0" *ngIf="product.manufacturer"><i class="bi bi-dot"></i>Fabricante:
-          <b>{{product.manufacturer}}</b> <span *ngIf="product.mpn"> | {{product.mpn}}</span></p>
-        <!--        <p class="card-text mb-0" *ngIf="product.mpn"><i class="bi bi-dot"></i>ID del Fabricante: <b>{{product.mpn}}</b></p>-->
+          <b>{{product.manufacturer}}</b></p>
       </div>
     </div>
   </div>

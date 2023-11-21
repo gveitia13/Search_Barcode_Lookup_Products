@@ -4,10 +4,13 @@ section.section {
   padding-bottom: 3rem;
 }
 
-div.section-title * {
+div.section-title {
+  padding-bottom: 2rem;
+}
+
+div.section-title h2 {
   text-transform: uppercase;
   text-align: center;
-  padding-bottom: 2rem;
 }
 
 .carousel-control-next-icon, .carousel-control-prev-icon {

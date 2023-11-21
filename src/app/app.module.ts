@@ -11,6 +11,7 @@ import {LoaderModule} from "@app/modules/loader/loader.module";
 import {AlertModule} from "@app/modules/alert/alert.module";
 import {httpInterceptorProviders} from "@app/helpers/http.interceptor";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {IndexModule} from "@app/core/index/index.module";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     LoaderModule,
     AlertModule,
+    IndexModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
