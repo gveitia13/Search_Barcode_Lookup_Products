@@ -2,6 +2,7 @@ import {Component, inject, OnInit, TemplateRef} from '@angular/core';
 import {ApiService} from "@app/services/api.service";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {debounceTime, Subject} from "rxjs";
 
 @Component({
   selector: 'app-index',
@@ -25,16 +26,34 @@ export class IndexComponent implements OnInit {
   productsList = []
   objectModal: any
   loader = true
-  activeSearch = false
+  isActiveSearch = false
   min = 0
   month = 0
-  exactSearch = true
+  isExactSearch = true
   form: FormGroup
+  inputSubject: Subject<any> = new Subject();
 
   ngOnInit(): void {
     this.loader = true
     this.rateLimits()
+    setInterval(() => this.rateLimits(), 60000)
     this.getSampleProducts()
+
+    this.inputSubject.pipe(
+      debounceTime(1000) // Retrasa las llamadas a la API 1 segundo
+    ).subscribe(form => {
+      this.apiService.getSearch(form, this.isExactSearch).subscribe(response => {
+        console.log(response);
+        // Aquí puedes hacer algo con los datos
+      });
+    });
+  }
+
+  searchAPI($event: any) {
+    this.isActiveSearch = true
+    this.loader = true
+    console.log(this.form.value)
+    this.inputSubject.next(this.form.value);
   }
 
   getSampleProducts() {
@@ -65,15 +84,7 @@ export class IndexComponent implements OnInit {
 
   changeSearch() {
     this.form.reset()
-    this.activeSearch = false
+    this.isActiveSearch = false
   }
 
-  searchAPI() {
-    this.activeSearch = true
-    console.log(this.form.value)
-    this.loader = true
-    setTimeout(() => {
-      this.loader = false
-    }, 3000)
-  }
 }

@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "@src/environments/environment";
 
 @Injectable({
@@ -32,15 +32,26 @@ export class ApiService {
     return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
   }
 
-  search(keywords: string) {
+  codeText = (text: string) => encodeURIComponent(text)
 
+  search(form: any) {
+    console.log(form)
+    let param = ''
+    if (form.search)
+      param += this.codeText(form.sea)
+    return this.rateLimits()
   }
 
-  exactSearch() {
-
+  exactSearch(form: any) {
+    console.log(form.barcode)
+    let params = new HttpParams()
+    params = params.set('barcode', form.barcode)
+    console.log(params.toString())
+    return this.rateLimits()
   }
 
-  rateLimits() {
-    return this.http.get(environment.statusUrl + '?' + this.key)
-  }
+  getSearch = (form: any, isExact: boolean) => isExact ? this.exactSearch(form) : this.search(form)
+
+  rateLimits = () => this.http.get(environment.statusUrl + '?' + this.key)
+
 }
