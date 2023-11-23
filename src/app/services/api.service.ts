@@ -32,14 +32,29 @@ export class ApiService {
     return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
   }
 
-  codeText = (text: string) => encodeURIComponent(text)
+  encodeStr = (text: string) => encodeURIComponent(text)
 
-  search(form: any) {
+  genericSearch(form: any) {
     console.log(form)
-    let param = ''
+    let param = '', barcode = ''
     if (form.search)
-      param += this.codeText(form.sea)
-    return this.rateLimits()
+      param += this.encodeStr(form.search)
+    /*    if (form.manufacturer)
+          param += this.encodeStr(form.manufacturer + ' ')
+        if (form.mpn)
+          param += this.encodeStr(form.mpn + ' ')
+        if (form.category)
+          param += this.encodeStr(form.category + ' ')
+
+        if (form.barcode)
+          if (form.barcode.length >= 6)
+            barcode += form.barcode + '*'*/
+    console.log(barcode)
+    console.log(param)
+    let url = this.url + '?search=' + param + '&page=2' + '&formatted=y&' + this.key
+    console.log(url)
+    //llamar la api
+    return this.http.get(url)
   }
 
   exactSearch(form: any) {
@@ -50,7 +65,8 @@ export class ApiService {
     return this.rateLimits()
   }
 
-  getSearch = (form: any, isExact: boolean) => isExact ? this.exactSearch(form) : this.search(form)
+  getSearch = (form: any, isGeneric: boolean) =>
+    !isGeneric ? this.exactSearch(form) : this.genericSearch(form)
 
   rateLimits = () => this.http.get(environment.statusUrl + '?' + this.key)
 

@@ -30,7 +30,7 @@ export class IndexComponent implements OnInit {
   isActiveSearch = false
   min = 0
   month = 0
-  isExactSearch = true
+  isGenericSearch = true
   form: FormGroup
   inputSubject: Subject<any> = new Subject();
 
@@ -44,10 +44,10 @@ export class IndexComponent implements OnInit {
       debounceTime(1000) // Retrasa las llamadas a la API 1 segundo
     ).subscribe(form => {
       this.resultList = []
-      this.apiService.getSearch(form, this.isExactSearch).subscribe(response => {
+      this.apiService.getSearch(form, this.isGenericSearch).subscribe((response:any) => {
         console.log(response);
         // hacerme la idea que recibo datos
-        this.resultList = this.productsList
+        this.resultList = response.products
         this.loader = false
       });
     });

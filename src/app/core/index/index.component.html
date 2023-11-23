@@ -15,33 +15,34 @@
     <div class="card">
       <div class="card-body">
         <div class="form-check mb-2 d-flex justify-content-center">
-          <input class="form-check-input fs-5" type="checkbox" [(ngModel)]="isExactSearch" id="flexCheckChecked"
+          <input class="form-check-input fs-5" type="checkbox" [(ngModel)]="isGenericSearch" id="flexCheckChecked"
                  (change)="changeSearch()">
           <label class="form-check-label fs-5 fw-bold" for="flexCheckChecked">
-            Búsqueda exacta
+            Búsqueda genérica
           </label>
         </div>
         <form [formGroup]="form">
           <div class="row g-2">
-            <div class="col-12" *ngIf="!isExactSearch">
+            <div class="col-12">
               <input type="search" class="form-control" formControlName="search"
-                     placeholder="Título" (input)="searchAPI($event)">
+                     placeholder="{{(isGenericSearch ?'Palabras claves: título, categoría, marca, mpn':'Título')}}"
+                     (input)="searchAPI($event)">
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
               <input type="search" class="form-control" maxlength="14" formControlName="barcode"
                      placeholder="Código de barras" (input)="searchAPI($event)"
                      [class.is-invalid]="(form.get('barcode')?.hasError('maxlength') ||
                      form.get('barcode')?.hasError('minlength')) && form.get('barcode')?.touched">
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
               <input type="search" class="form-control" formControlName="manufacturer" placeholder="Fabricante"
                      (input)="searchAPI($event)">
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
               <input type="search" class="form-control" formControlName="mpn" placeholder="Marca"
                      (input)="searchAPI($event)">
             </div>
-            <div class="col-12 col-md-6" *ngIf="!isExactSearch">
+            <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
               <input type="search" class="form-control" formControlName="category" placeholder="Categoría"
                      (input)="searchAPI($event)">
             </div>
