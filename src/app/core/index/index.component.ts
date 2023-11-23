@@ -24,6 +24,7 @@ export class IndexComponent implements OnInit {
 
   private apiService = inject(ApiService)
   productsList = []
+  resultList = []
   objectModal: any
   loader = true
   isActiveSearch = false
@@ -42,16 +43,21 @@ export class IndexComponent implements OnInit {
     this.inputSubject.pipe(
       debounceTime(1000) // Retrasa las llamadas a la API 1 segundo
     ).subscribe(form => {
+      this.resultList = []
       this.apiService.getSearch(form, this.isExactSearch).subscribe(response => {
         console.log(response);
-        // Aquí puedes hacer algo con los datos
+        // hacerme la idea que recibo datos
+        this.resultList = this.productsList
+        this.loader = false
       });
     });
   }
 
   searchAPI($event: any) {
-    this.isActiveSearch = true
     this.loader = true
+    //If si el form esta vacio
+    //return y no llamo a la api
+    this.isActiveSearch = true
     console.log(this.form.value)
     this.inputSubject.next(this.form.value);
   }

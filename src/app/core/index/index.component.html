@@ -60,6 +60,15 @@
       <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
     </div>
   </div>
+
+  <h3 *ngIf="!loader && isActiveSearch" class="text-center text-uppercase">Resultado de búsqueda</h3>
+
+  <div *ngIf="!loader && isActiveSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+    row-cols-lg-4 g-3 row-cols-xl-5">
+    <div class="col" *ngFor="let prod of resultList">
+      <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
+    </div>
+  </div>
 </section>
 
 <ng-template #content let-c="close" let-d="dismiss">
