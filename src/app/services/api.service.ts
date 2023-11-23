@@ -28,45 +28,45 @@ export class ApiService {
   }
 
   getAllByBarcodeContains(barcodeContains: string) {
-    //6 digitos o mas
     return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
   }
 
   encodeStr = (text: string) => encodeURIComponent(text)
 
   genericSearch(form: any) {
-    console.log(form)
-    let param = '', barcode = ''
+    let param = ''
     if (form.search)
       param += this.encodeStr(form.search)
-    /*    if (form.manufacturer)
-          param += this.encodeStr(form.manufacturer + ' ')
-        if (form.mpn)
-          param += this.encodeStr(form.mpn + ' ')
-        if (form.category)
-          param += this.encodeStr(form.category + ' ')
-
-        if (form.barcode)
-          if (form.barcode.length >= 6)
-            barcode += form.barcode + '*'*/
-    console.log(barcode)
     console.log(param)
     let url = this.url + '?search=' + param + '&page=2' + '&formatted=y&' + this.key
     console.log(url)
-    //llamar la api
     return this.http.get(url)
   }
 
-  exactSearch(form: any) {
-    console.log(form.barcode)
+  containsSearch(form: any) {
+    console.log(form)
     let params = new HttpParams()
-    params = params.set('barcode', form.barcode)
-    console.log(params.toString())
-    return this.rateLimits()
+    if (form.manufacturer)
+      params = params.set('manufacturer', this.encodeStr(form.manufacturer))
+    if (form.mpn)
+      params = params.set('mpn', this.encodeStr(form.mpn))
+    if (form.category)
+      params = params.set('category', this.encodeStr(form.category))
+    if (form.brand)
+      params = params.set('brand', this.encodeStr(form.brand))
+    if (form.search)
+      params = params.set('title', this.encodeStr(form.search))
+    if (form.barcode)
+      if (form.barcode.length >= 6)
+        params = params.set('barcode', this.encodeStr(form.barcode) + '*')
+
+    let url = this.url + '?' + params.toString() + '&formatted=y&' + this.key
+    console.log(url)
+    return this.http.get(url)
   }
 
   getSearch = (form: any, isGeneric: boolean) =>
-    !isGeneric ? this.exactSearch(form) : this.genericSearch(form)
+    !isGeneric ? this.containsSearch(form) : this.genericSearch(form)
 
   rateLimits = () => this.http.get(environment.statusUrl + '?' + this.key)
 

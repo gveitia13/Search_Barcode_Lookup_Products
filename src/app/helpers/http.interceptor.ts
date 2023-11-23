@@ -23,7 +23,7 @@ export class ApiInterceptor implements HttpInterceptor {
         console.log(error)
         if (error.status === 0 || error.status === 500)
           this.alertService.errorNotification('Hay problemas para conectarse al servidor.')
-        else
+        else if (error.status !== 404)
           this.alertService.errorNotification(error.message, error.statusText)
         return throwError(() => error)
       })

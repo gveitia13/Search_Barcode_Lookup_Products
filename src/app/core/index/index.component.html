@@ -23,7 +23,7 @@
         </div>
         <form [formGroup]="form">
           <div class="row g-2">
-            <div class="col-12">
+            <div class="col-12" [class.col-md-6]="!isGenericSearch">
               <input type="search" class="form-control" formControlName="search"
                      placeholder="{{(isGenericSearch ?'Palabras claves: título, categoría, marca, mpn':'Título')}}"
                      (input)="searchAPI($event)">
@@ -39,7 +39,11 @@
                      (input)="searchAPI($event)">
             </div>
             <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
-              <input type="search" class="form-control" formControlName="mpn" placeholder="Marca"
+              <input type="search" class="form-control" formControlName="mpn" placeholder="Mpn"
+                     (input)="searchAPI($event)">
+            </div>
+            <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
+              <input type="search" class="form-control" formControlName="brand" placeholder="Marca"
                      (input)="searchAPI($event)">
             </div>
             <div class="col-12 col-md-6" *ngIf="!isGenericSearch">
@@ -53,22 +57,25 @@
   </div>
   <hr>
   <app-loader *ngIf="loader"></app-loader>
-  <h3 *ngIf="!loader && !isActiveSearch" class="text-center text-uppercase">Productos de muestra</h3>
-
-  <div *ngIf="!loader && !isActiveSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+  <div *ngIf="!notFound">
+    <h3 *ngIf="!loader && !isActiveSearch" class="text-center text-uppercase">Productos de muestra</h3>
+    <div *ngIf="!loader && !isActiveSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
     row-cols-lg-4 g-3 row-cols-xl-5">
-    <div class="col" *ngFor="let prod of productsList">
-      <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
+      <div class="col" *ngFor="let prod of productsList">
+        <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
+      </div>
+    </div>
+
+    <h3 *ngIf="!loader && isActiveSearch" class="text-center text-uppercase">Resultado de búsqueda</h3>
+    <div *ngIf="!loader && isActiveSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
+    row-cols-lg-4 g-3 row-cols-xl-5">
+      <div class="col" *ngFor="let prod of resultList">
+        <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
+      </div>
     </div>
   </div>
-
-  <h3 *ngIf="!loader && isActiveSearch" class="text-center text-uppercase">Resultado de búsqueda</h3>
-
-  <div *ngIf="!loader && isActiveSearch" class="row d-flex justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3
-    row-cols-lg-4 g-3 row-cols-xl-5">
-    <div class="col" *ngFor="let prod of resultList">
-      <app-product (eventModal)="openModal($event, content)" [product]="prod"></app-product>
-    </div>
+  <div *ngIf="notFound">
+    <h3 class="text-center text-uppercase">No se encuentran productos con estos parámetros de búsqueda.</h3>
   </div>
 </section>
 

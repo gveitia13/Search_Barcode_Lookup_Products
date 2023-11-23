@@ -3,6 +3,7 @@ import {ApiService} from "@app/services/api.service";
 import {NgbModal, NgbModalConfig} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {debounceTime, Subject} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-index',
@@ -18,7 +19,8 @@ export class IndexComponent implements OnInit {
       barcode: ['', [Validators.maxLength(14), Validators.minLength(6)]],
       manufacturer: [''],
       mpn: [''],
-      category: ['']
+      category: [''],
+      brand: ['']
     })
   }
 
@@ -31,6 +33,7 @@ export class IndexComponent implements OnInit {
   min = 0
   month = 0
   isGenericSearch = true
+  notFound = false
   form: FormGroup
   inputSubject: Subject<any> = new Subject();
 
@@ -44,25 +47,39 @@ export class IndexComponent implements OnInit {
       debounceTime(1000) // Retrasa las llamadas a la API 1 segundo
     ).subscribe(form => {
       this.resultList = []
-      this.apiService.getSearch(form, this.isGenericSearch).subscribe((response:any) => {
-        console.log(response);
-        // hacerme la idea que recibo datos
-        this.resultList = response.products
+      // Valido si el form esta vacío y pongo lista default de muestra
+      if (this.isEmptyForm()) {
         this.loader = false
+        this.isActiveSearch = false
+        return
+      }
+      //Llamada al servicio para acceder a la API
+      this.apiService.getSearch(form, this.isGenericSearch).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.resultList = response.products
+          this.loader = false
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 404) {
+            this.notFound = true
+            this.loader = false
+          }
+        }
       });
     });
   }
 
   searchAPI($event: any) {
+    /*Llamada al subject para subscribirse*/
     this.loader = true
-    //If si el form esta vacio
-    //return y no llamo a la api
     this.isActiveSearch = true
-    console.log(this.form.value)
+    this.notFound = false
     this.inputSubject.next(this.form.value);
   }
 
   getSampleProducts() {
+    /*Obtener productos de muestra*/
     if (localStorage.getItem('list')) {
       this.productsList = JSON.parse(localStorage.getItem('list')!).slice(0, 10)
       this.loader = false
@@ -77,6 +94,7 @@ export class IndexComponent implements OnInit {
   }
 
   rateLimits() {
+    /*Estado del api*/
     this.apiService.rateLimits().subscribe((data: any) => {
       this.min = data.remaining_calls_per_minute
       this.month = data.remaining_calls_per_month
@@ -93,4 +111,12 @@ export class IndexComponent implements OnInit {
     this.isActiveSearch = false
   }
 
+  isEmptyForm() {
+    /*  Verifica si el formulario esta vacío completo*/
+    const fields: string[] = ['manufacturer', 'mpn', 'category', 'brand', 'search']
+    for (let field of fields)
+      if (this.form.value[field])
+        return false
+    return !(this.form.value.barcode && this.form.value.barcode.length >= 6)
+  }
 }
