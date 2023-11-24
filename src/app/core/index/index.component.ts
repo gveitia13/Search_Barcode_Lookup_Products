@@ -65,7 +65,8 @@ export class IndexComponent implements OnInit {
             this.notFound = true
             this.loader = false
           }
-        }
+        },
+        complete: () => this.rateLimits()
       })
     })
   }
@@ -81,12 +82,13 @@ export class IndexComponent implements OnInit {
   getSampleProducts() {
     /*Obtener productos de muestra*/
     if (localStorage.getItem('list')) {
-      this.productsList = JSON.parse(localStorage.getItem('list')!).slice(0, 10)
+      this.productsList = JSON.parse(localStorage.getItem('list')!)
       this.loader = false
     } else
       this.apiService.getAllByBarcodeContains('091207').subscribe({
         next: (response: any) => {
-          this.productsList = response.products.slice(0, 10)
+          console.log(response)
+          this.productsList = response.products
           localStorage.setItem('list', JSON.stringify(response.products))
           this.loader = false
         }

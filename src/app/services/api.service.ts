@@ -21,23 +21,22 @@ export class ApiService {
     return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key, this.httpOptions)
   }
 
-  getAllByBarcodeContains(barcodeContains: string) {
-    return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key, this.httpOptions)
+  getAllByBarcodeContains(barcodeContains: string, page = 1) {
+    return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + 'page=' + page + '&' + this.key,
+      this.httpOptions)
   }
 
   encodeStr = (text: string) => encodeURIComponent(text)
 
-  genericSearch(form: any) {
+  genericSearch(form: any, page: number) {
     let param = ''
     if (form.search)
       param += this.encodeStr(form.search)
-    console.log(param)
-    let url = this.url + '?search=' + param + '&page=2' + '&formatted=y&' + this.key
+    let url = this.url + '?search=' + param + '&page=' + page + '&formatted=y&' + this.key
     return this.http.get(url, this.httpOptions)
   }
 
-  containsSearch(form: any) {
-    console.log(form)
+  containsSearch(form: any, page: number) {
     let params = new HttpParams()
     if (form.manufacturer)
       params = params.set('manufacturer', this.encodeStr(form.manufacturer))
@@ -52,13 +51,14 @@ export class ApiService {
     if (form.barcode)
       if (form.barcode.length >= 6)
         params = params.set('barcode', this.encodeStr(form.barcode) + '*')
+    params = params.set('page', page)
 
     let url = this.url + '?' + params.toString() + '&formatted=y&' + this.key
     return this.http.get(url, this.httpOptions)
   }
 
-  getSearch = (form: any, isGeneric: boolean) =>
-    !isGeneric ? this.containsSearch(form) : this.genericSearch(form)
+  getSearch = (form: any, isGeneric: boolean, page = 1) =>
+    !isGeneric ? this.containsSearch(form, page) : this.genericSearch(form, page)
 
   rateLimits = () => this.http.get(environment.statusUrl + '?' + this.key)
 

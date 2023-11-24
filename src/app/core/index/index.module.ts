@@ -7,6 +7,7 @@ import {CarouselComponent} from './components/carousel/carousel.component';
 import {NgbCarousel, NgbSlide} from "@ng-bootstrap/ng-bootstrap";
 import {LoaderModule} from "@app/modules/loader/loader.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     NgbSlide,
     LoaderModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule,
   ]
 })
 export class IndexModule {
