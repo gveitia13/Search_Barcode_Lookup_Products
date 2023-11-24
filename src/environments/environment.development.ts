@@ -1,5 +1,5 @@
 export const environment = {
-  key: 'pq0n7aqv0so4s98s7echw31o5w7acd',
+  key: 'wnong9ywswsraagnorviedob9k1mk5',
   url: '/v3/products',
   statusUrl: '/v3/rate-limits'
 };
