@@ -17,16 +17,6 @@ export class ApiService {
     return this.http.get(this.url + '?barcode=' + barcode + '&formatted=y&' + this.key, this.httpOptions)
   }
 
-  getMax10ByBarcode(barcodeArray: string[]) {
-    let barcodes = ''
-    barcodeArray.forEach((v, i) => {
-      barcodes += v
-      if (i < barcodeArray.length - 1)
-        barcodes += ','
-    })
-    return this.http.get(this.url + '?barcode=' + barcodes + '&formatted=y&' + this.key)
-  }
-
   getAllByBarcodeContains(barcodeContains: string) {
     return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
   }
@@ -39,7 +29,6 @@ export class ApiService {
       param += this.encodeStr(form.search)
     console.log(param)
     let url = this.url + '?search=' + param + '&page=2' + '&formatted=y&' + this.key
-    console.log(url)
     return this.http.get(url)
   }
 
@@ -61,7 +50,6 @@ export class ApiService {
         params = params.set('barcode', this.encodeStr(form.barcode) + '*')
 
     let url = this.url + '?' + params.toString() + '&formatted=y&' + this.key
-    console.log(url)
     return this.http.get(url)
   }
 

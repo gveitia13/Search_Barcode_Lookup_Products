@@ -30,9 +30,10 @@ export class IndexComponent implements OnInit {
   objectModal: any
   loader = true
   isActiveSearch = false
+  isGenericSearch = true
+  isExactSearch = false
   min = 0
   month = 0
-  isGenericSearch = true
   notFound = false
   form: FormGroup
   inputSubject: Subject<any> = new Subject();
@@ -56,7 +57,6 @@ export class IndexComponent implements OnInit {
       //Llamada al servicio para acceder a la API
       this.apiService.getSearch(form, this.isGenericSearch).subscribe({
         next: (response: any) => {
-          console.log(response);
           this.resultList = response.products
           this.loader = false
         },
@@ -66,8 +66,8 @@ export class IndexComponent implements OnInit {
             this.loader = false
           }
         }
-      });
-    });
+      })
+    })
   }
 
   searchAPI($event: any) {
