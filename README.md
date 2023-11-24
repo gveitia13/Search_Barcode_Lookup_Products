@@ -2,26 +2,41 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.6.
 
-## Development server
+## Clone the project
+`$ git clone https://github.com/gveitia13/Search_Barcode_Lookup_Products`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+`$ cd Search_Barcode_Lookup_Products`
 
-## Code scaffolding
+## Install dependencies
+`$ npm install`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Start server
+`$ npm run start`
 
-## Build
+### Open in browser: http://localhost:4200
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+--------------------------------------------
 
-## Running unit tests
+## Description
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Debido a que la API Barcode-lookup tiene restringido el Cors Origin, se configuró un proxy local para poder simular que el proyecto y la APi pertenecen al mismo dominio.
 
-## Running end-to-end tests
+### Para que funcione hay que correrlo local
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+------
 
-## Further help
+## URL pública
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+https://angular-barcodelookup.vercel.app/
+
+(Esto dará conflicto con los Cors Origin, por lo que se recomienda correrlo local)
+
+-------------
+
+## Repositorio de Docker
+
+https://hub.docker.com/r/lilstar13/barcode-api
+
+Run `docker pull lilstar13/barcode-api`
+
+Para correrlo local `docker run -d -it -p 80:80/tcp --name barcode-api lilstar13/barcode-api:latest`
