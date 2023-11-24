@@ -10,7 +10,11 @@ export class ApiService {
   private key = 'key=' + environment.key
   private url = environment.url
   private httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'})
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Accept': 'application/json'
+    })
   }
 
   getByBarcode(barcode: string) {
@@ -18,7 +22,7 @@ export class ApiService {
   }
 
   getAllByBarcodeContains(barcodeContains: string) {
-    return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key)
+    return this.http.get(this.url + '?barcode=' + barcodeContains + '*&formatted=y&' + this.key, this.httpOptions)
   }
 
   encodeStr = (text: string) => encodeURIComponent(text)
@@ -29,7 +33,7 @@ export class ApiService {
       param += this.encodeStr(form.search)
     console.log(param)
     let url = this.url + '?search=' + param + '&page=2' + '&formatted=y&' + this.key
-    return this.http.get(url)
+    return this.http.get(url, this.httpOptions)
   }
 
   containsSearch(form: any) {
@@ -50,7 +54,7 @@ export class ApiService {
         params = params.set('barcode', this.encodeStr(form.barcode) + '*')
 
     let url = this.url + '?' + params.toString() + '&formatted=y&' + this.key
-    return this.http.get(url)
+    return this.http.get(url, this.httpOptions)
   }
 
   getSearch = (form: any, isGeneric: boolean) =>
