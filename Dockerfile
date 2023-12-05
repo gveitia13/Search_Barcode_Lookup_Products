@@ -13,8 +13,7 @@ FROM node:18.18.0 as node
 WORKDIR /app
 COPY . .
 RUN npm install
-#COPY . .
-RUN npm run start
+RUN npm run build --prod
 # Stage 2
 FROM nginx:alpine
 COPY --from=node /app/dist/search-products /usr/share/nginx/html
